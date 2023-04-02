@@ -1,13 +1,40 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { StyledEngineProvider } from "@mui/material/styles";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Login from "./components/Login";
+import Signup, { action as signupAction } from "./components/Signup";
+import Error from "./components/Error";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+
+    children: [
+      { index: true, element: <Login /> },
+      {
+        path: "login/",
+        element: <Login />,
+      },
+      {
+        path: "signup/",
+        element: <Signup />,
+        action: signupAction,
+      },
+    ],
+  },
+]);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <StyledEngineProvider injectFirst>
+      <RouterProvider router={router} />
+    </StyledEngineProvider>
   </React.StrictMode>
 );
 
